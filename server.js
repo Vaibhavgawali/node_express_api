@@ -8,11 +8,15 @@ const userRoute = require("./routes/userRoutes");
 const errorHandler = require("./middleware/errorHandler");
 const connectDb = require("./config/dbConnection");
 
+const SwaggerUi = require("swagger-ui-express");
+const swaggerSpec = require("./swagger");
+
 connectDb();
 const app = express();
 
 app.use(express.json());
 
+app.use("/api-docs", SwaggerUi.serve, SwaggerUi.setup(swaggerSpec));
 app.use("/api/contacts", contactRoute);
 app.use("/api/users", userRoute);
 
