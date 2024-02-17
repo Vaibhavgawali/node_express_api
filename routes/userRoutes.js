@@ -84,6 +84,23 @@ const router = express.Router();
  *         description: Unauthorized. Invalid email or password.
  */
 
+/**
+ * @swagger
+ * /api/users/current:
+ *   get:
+ *     summary: Get a logged user information
+ *     description: Current logged used information. Authentication required.
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Successful response with user information.
+ *       401:
+ *         description: Unauthorized. Authentication token is missing or invalid.
+ *       403:
+ *         description: Forbidden. User does not have permission to access the resource.
+ */
+
 router.post("/register", registerUser);
 router.post("/login", loginUser);
 router.get("/current", validateToken, currentUser);

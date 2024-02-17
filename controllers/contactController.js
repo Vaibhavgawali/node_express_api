@@ -13,9 +13,7 @@ const {
 //@route GET /api/contacts
 //@access private
 const getContacts = asyncHandler(async (req, res) => {
-  // if (!redisClient.connected) {
   await redisClient.connect();
-  // }
 
   let result = await redisClient.get(`contacts:${req.user.id}`);
   if (result) {
