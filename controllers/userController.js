@@ -82,4 +82,45 @@ const currentUser = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "Current user information", user });
 });
 
-module.exports = { registerUser, loginUser, currentUser };
+const changePassword = asyncHandler(async (req, res) => {
+  const { email, password, newPass, confirmPass } = req.body;
+
+  if (!email || !password || !newPass || !confirmPass) {
+    res.status(400);
+    throw new Error("All fields are required !");
+  }
+
+  if (email !== req.user.email) {
+    res.status(403);
+    throw new Error("You don't have rights !");
+  }
+  if (newPass !== confirmPass) {
+    res.status(400);
+    throw new Error("Confirm Password and new password are not matching !");
+  }
+  const user = await User.findOne({ email });
+  if (!user) {
+    res.status(401);
+    throw new Error("Invalid email or password !");
+  }
+  const result = compareSync(password, user.password);
+  if (!result) {
+    res.status(401);
+    throw new Error("Invalid email or password !");
+  }
+
+  if (password === newPass) {
+    res.status(400);
+    throw new Error("Current and new password are same !");
+  }
+
+  const salt = genSaltSync(10);
+  const hashPassword = hashSync(newPass, salt);
+
+  user.password = hashPassword;
+  await user.save();
+
+  res.status(200).json({ message: "Password updated successfully !" });
+});
+
+module.exports = { registerUser, loginUser, currentUser, changePassword };

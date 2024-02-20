@@ -3,6 +3,7 @@ const {
   registerUser,
   loginUser,
   currentUser,
+  changePassword,
 } = require("../controllers/userController");
 const validateToken = require("../middleware/validateTokenHandler");
 
@@ -101,8 +102,52 @@ const router = express.Router();
  *         description: Forbidden. User does not have permission to access the resource.
  */
 
+/**
+ * @swagger
+ * /api/users/change-password:
+ *   post:
+ *     summary: Change password of user
+ *     description: Change password of current logged-in user in the database.
+ *     security :
+ *      - bearerAuth : []
+ *     requestBody:
+ *        required: true
+ *        content:
+ *            application/json:
+ *              schema:
+ *                  type: object
+ *                  properties:
+ *                      email:
+ *                         type: string
+ *                         format: email
+ *                         description: User's email
+ *                      password:
+ *                          type: string
+ *                          format: password
+ *                          description: User's current password
+ *                      newPass:
+ *                          type: string
+ *                          format: password
+ *                          description: User's new password
+ *                      confirmPass:
+ *                          type: string
+ *                          format: password
+ *                          description: Confirm new password
+ *     responses:
+ *       200:
+ *         description: Password updated successfully
+ *       400:
+ *         description: Bad request. Check if all fields are provided and if new password matches confirm password.
+ *       401:
+ *         description: Unauthorized. Incorrect current password provided.
+ *       404:
+ *         description: User not found.
+ *       500:
+ *         description: Internal server error.
+ */
+
 router.post("/register", registerUser);
 router.post("/login", loginUser);
 router.get("/current", validateToken, currentUser);
-
+router.post("/change-password", validateToken, changePassword);
 module.exports = router;
