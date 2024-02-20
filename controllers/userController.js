@@ -82,6 +82,9 @@ const currentUser = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "Current user information", user });
 });
 
+//@desc Current user chane password
+//@route POST /api/users/change-password
+//@access private
 const changePassword = asyncHandler(async (req, res) => {
   const { email, password, newPass, confirmPass } = req.body;
 
