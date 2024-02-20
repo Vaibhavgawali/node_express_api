@@ -19,6 +19,28 @@ router.use(validateToken);
  *     description: Retrieve a list of contacts from the database. Authentication required.
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         required: false
+ *         description: Page number to retrieve contacts.
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *       - in: query
+ *         name: q
+ *         required: false
+ *         description: Search query.
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: sort
+ *         description: |
+ *           Specify the sorting order. Use a hyphen (-) before the field name for descending order.
+ *           Example: sort=-name,email
+ *         required: false
+ *         schema:
+ *           type: string
  *     responses:
  *       200:
  *         description: Successful response with a list of contacts.
