@@ -1,0 +1,5 @@
+[2024-02-21T16:54:35.579Z] POST /api/contacts 400 31.666 ms - {"name":"string","email":"user@example.com","phone":""}
+[2024-02-21T17:02:13.002Z] POST /api/contacts 401 2.549 ms - {"name":"string","email":"user@example.com","phone":"string"}
+[2024-02-21T17:08:18.945Z] POST /api/contacts 401 8.402 ms - {"name":"string","email":"user@example.com","phone":"string"} - No error message available
+[2024-02-21T17:09:19.038Z] POST /api/users/login 401 341.810 ms - {"email":"v@gmail.com","password":"string"} - No error message available
+[2024-02-21T17:14:35.770Z] POST /api/contacts 401 2.185 ms - {"name":"string","email":"user@example.com","phone":"string"} - No error message available

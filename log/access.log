@@ -1,0 +1,17 @@
+2024-02-21T16:54:07.850Z GET /api/contacts 200 201.491 ms - {}
+2024-02-21T16:54:35.579Z POST /api/contacts 400 31.666 ms - {"name":"string","email":"user@example.com","phone":""}
+2024-02-21T17:01:58.757Z GET /api/contacts 304 238.751 ms - {}
+2024-02-21T17:02:04.385Z GET /api-docs/ 200 12.659 ms - {}
+2024-02-21T17:02:04.456Z GET /api-docs/swagger-ui-init.js 200 0.905 ms - {}
+2024-02-21T17:02:04.463Z GET /api-docs/swagger-ui.css 200 15.143 ms - {}
+2024-02-21T17:02:04.469Z GET /api-docs/swagger-ui-standalone-preset.js 200 10.959 ms - {}
+2024-02-21T17:02:04.481Z GET /api-docs/swagger-ui-bundle.js 200 14.888 ms - {}
+2024-02-21T17:02:04.874Z GET /api-docs/favicon-32x32.png 304 3.521 ms - {}
+2024-02-21T17:02:13.002Z POST /api/contacts 401 2.549 ms - {"name":"string","email":"user@example.com","phone":"string"}
+2024-02-21T17:05:48.507Z POST /api/contacts 401 6.413 ms - {"name":"string","email":"user@example.com","phone":"string"}
+2024-02-21T17:06:55.526Z POST /api/contacts 401 5.351 ms - {"name":"string","email":"user@example.com","phone":"string"}
+2024-02-21T17:08:18.944Z POST /api/contacts 401 8.402 ms - {"name":"string","email":"user@example.com","phone":"string"}
+2024-02-21T17:09:19.038Z POST /api/users/login 401 341.810 ms - {"email":"v@gmail.com","password":"string"}
+2024-02-21T17:09:34.321Z POST /api/users/login 200 311.229 ms - {"email":"v@gmail.com","password":"password"}
+2024-02-21T17:14:26.816Z POST /api/users/login 200 2877.180 ms - {"email":"v@gmail.com","password":"password"}
+2024-02-21T17:14:35.770Z POST /api/contacts 401 2.185 ms - {"name":"string","email":"user@example.com","phone":"string"}
