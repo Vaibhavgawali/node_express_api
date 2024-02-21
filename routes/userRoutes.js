@@ -6,6 +6,11 @@ const {
   changePassword,
 } = require("../controllers/userController");
 const validateToken = require("../middleware/validateTokenHandler");
+const {
+  validateUserForm,
+  validateChangePasswordForm,
+  handleValidationErrors,
+} = require("../middleware/formValidation");
 
 const router = express.Router();
 /**
@@ -146,8 +151,19 @@ const router = express.Router();
  *         description: Internal server error.
  */
 
-router.post("/register", registerUser);
+router.post(
+  "/register",
+  validateUserForm,
+  handleValidationErrors,
+  registerUser
+);
 router.post("/login", loginUser);
 router.get("/current", validateToken, currentUser);
-router.post("/change-password", validateToken, changePassword);
+router.post(
+  "/change-password",
+  validateToken,
+  validateChangePasswordForm,
+  handleValidationErrors,
+  changePassword
+);
 module.exports = router;

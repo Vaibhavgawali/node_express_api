@@ -8,6 +8,11 @@ const {
   deleteContactFromCache,
   updateContactInCache,
 } = require("../utils/cacheUtils");
+const {
+  validateCommonFields,
+  validateFormWithPassword,
+  handleValidationErrors,
+} = require("../middleware/formValidation");
 
 //@desc Get all contacts
 //@route GET /api/contacts

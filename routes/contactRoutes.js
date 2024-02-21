@@ -8,6 +8,10 @@ const {
   deleteContact,
 } = require("../controllers/contactController");
 const validateToken = require("../middleware/validateTokenHandler");
+const {
+  validateContactForm,
+  handleValidationErrors,
+} = require("../middleware/formValidation");
 
 router.use(validateToken);
 
@@ -129,6 +133,27 @@ router.use(validateToken);
  *           type: string
  *     security:
  *       - bearerAuth: []
+ *     requestBody:
+ *        required: true
+ *        content:
+ *            application/json:
+ *              schema:
+ *                  type: object
+ *                  properties:
+ *                      name:
+ *                         type: string
+ *                         description:  full name of contact
+ *                      email:
+ *                         type: string
+ *                         format: email
+ *                         description: email of contact
+ *                      phone:
+ *                          type: string
+ *                          description: phone number of contact
+ *                  required:
+ *                      - name
+ *                      - email
+ *                      - phone
  *     responses:
  *       200:
  *         description: Successful response with the updated contact.
@@ -168,11 +193,14 @@ router.use(validateToken);
  *         description: Contact not found.
  */
 
-router.route("/").get(getContacts).post(createContact);
+router
+  .route("/")
+  .get(getContacts)
+  .post(validateContactForm, handleValidationErrors, createContact);
 router
   .route("/:id")
   .get(getContactById)
-  .patch(updateContact)
+  .patch(validateContactForm, handleValidationErrors, updateContact)
   .delete(deleteContact);
 
 module.exports = router;
