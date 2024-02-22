@@ -31,6 +31,16 @@ const validatePassword = [
 
 const validateUserForm = [...validateContactForm, ...validatePassword];
 
+const validateImage = [
+  body("image").notEmpty().withMessage("Image field is required."),
+  // .isMimeType()
+  // .withMessage(
+  //   "Invalid file format. Only JPEG, PNG, and JPG files are allowed."
+  // )
+  // .isLength({ max: 5 * 1024 * 1024 })
+  // .withMessage("File size must be less than 5MB."),
+];
+
 const validateChangePasswordForm = [
   body("email").isEmail().normalizeEmail().withMessage("Invalid email format"),
 
@@ -57,6 +67,7 @@ const validateChangePasswordForm = [
 // Middleware function to handle validation errors
 const handleValidationErrors = (req, res, next) => {
   const errors = validationResult(req);
+  console.log(errors);
   if (!errors.isEmpty()) {
     const extractedErrors = errors
       .array()
@@ -70,5 +81,6 @@ module.exports = {
   validateContactForm,
   validateUserForm,
   validateChangePasswordForm,
+  validateImage,
   handleValidationErrors,
 };

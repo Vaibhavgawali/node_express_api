@@ -4,14 +4,17 @@ const {
   loginUser,
   currentUser,
   changePassword,
+  uploadProfileImage,
 } = require("../controllers/userController");
 const validateToken = require("../middleware/validateTokenHandler");
 const {
   validateUserForm,
   validateChangePasswordForm,
+  validateImage,
   handleValidationErrors,
 } = require("../middleware/formValidation");
 
+const upload = require("../config/multerConfig");
 const router = express.Router();
 /**
  * @swagger
@@ -151,6 +154,30 @@ const router = express.Router();
  *         description: Internal server error.
  */
 
+/**
+ * @swagger
+ * /api/users/upload-image:
+ *   post:
+ *     summary: Upload an image
+ *     description: Uploads an image file with validation
+ *     security :
+ *       - bearerAuth : []
+ *     requestBody:
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               image:
+ *                 type: string
+ *                 format: binary
+ *     responses:
+ *       '200':
+ *         description: Image uploaded successfully
+ *       '400':
+ *         description: Bad request or validation error
+ */
+
 router.post(
   "/register",
   validateUserForm,
@@ -166,4 +193,13 @@ router.post(
   handleValidationErrors,
   changePassword
 );
+router.post(
+  "/upload-image",
+  validateToken,
+  // validateImage,
+  // handleValidationErrors,
+  upload.single("image"),
+  uploadProfileImage
+);
+
 module.exports = router;

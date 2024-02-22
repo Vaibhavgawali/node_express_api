@@ -126,4 +126,37 @@ const changePassword = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "Password updated successfully !" });
 });
 
-module.exports = { registerUser, loginUser, currentUser, changePassword };
+const uploadProfileImage = (req, res) => {
+  const imageFile = req.file;
+
+  if (!imageFile) {
+    res.status(400);
+    throw new Error("No image file uploaded !");
+  }
+
+  const allowedMimeTypes = ["image/jpeg", "image/png", "image/jpg"];
+  if (!allowedMimeTypes.includes(imageFile.mimetype)) {
+    res.status(400);
+    throw new Error(
+      "Invalid file format. Only JPEG, PNG, and JPG files are allowed"
+    );
+  }
+
+  if (imageFile.size > 5 * 1024 * 1024) {
+    res.status(400);
+    throw new Error("File size must be less than 5MB");
+  }
+
+  res.status(200).json({
+    message: "Image uploaded successfully",
+    fileName: imageFile.filename,
+  });
+};
+
+module.exports = {
+  registerUser,
+  loginUser,
+  currentUser,
+  changePassword,
+  uploadProfileImage,
+};

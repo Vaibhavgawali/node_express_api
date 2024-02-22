@@ -14,7 +14,7 @@ const { requestLogger, errorLogger } = require("./middleware/logger");
 
 connectDb();
 const app = express();
-
+app.use(express.static("uploads"));
 app.use(express.json());
 
 app.use(requestLogger);
