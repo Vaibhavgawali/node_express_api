@@ -47,3 +47,11 @@
 [2024-02-22T17:26:19.501Z] POST /api/users/upload-image 401 1.123 ms - {} - No error message available
 [2024-02-22T17:27:52.139Z] POST /api/users/upload-image 400 15.299 ms - {"image":""} - No error message available
 [2024-02-22T17:28:00.088Z] POST /api/users/upload-image 400 255.151 ms - {} - No error message available
+[2024-02-23T15:36:11.887Z] POST /api/users/upload-image 400 557.610 ms - {} - No error message available
+[2024-02-23T16:24:53.992Z] POST /api/users/upload-image 500 1857.310 ms - {} - No error message available
+[2024-02-23T16:31:43.935Z] POST /api/users/upload-image 500 205.683 ms - {} - No error message available
+[2024-02-23T16:36:59.794Z] POST /api/users/upload-image 500 162.020 ms - {} - No error message available
+[2024-02-23T16:39:27.309Z] POST /api/users/upload-image 500 144.622 ms - {} - No error message available
+[2024-02-23T16:40:01.036Z] POST /api/users/upload-image 500 1927.519 ms - {} - No error message available
+[2024-02-23T16:40:45.735Z] POST /api/users/upload-image 500 2076.415 ms - {} - No error message available
+[2024-02-23T16:43:16.580Z] POST /api/users/upload-image 500 1038.228 ms - {} - No error message available
