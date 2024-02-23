@@ -8,6 +8,10 @@ const {
   deleteContact,
 } = require("../controllers/contactController");
 const validateToken = require("../middleware/validateTokenHandler");
+const {
+  validateContactForm,
+  handleValidationErrors,
+} = require("../middleware/formValidation");
 
 router.use(validateToken);
 
@@ -19,6 +23,28 @@ router.use(validateToken);
  *     description: Retrieve a list of contacts from the database. Authentication required.
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         required: false
+ *         description: Page number to retrieve contacts.
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *       - in: query
+ *         name: q
+ *         required: false
+ *         description: Search query.
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: sort
+ *         description: |
+ *           Specify the sorting order. Use a hyphen (-) before the field name for descending order.
+ *           Example: sort=-name,email
+ *         required: false
+ *         schema:
+ *           type: string
  *     responses:
  *       200:
  *         description: Successful response with a list of contacts.
@@ -34,30 +60,29 @@ router.use(validateToken);
  *   post:
  *     summary: Create a new contact
  *     description: Create a new contact in the database.
- *     consumes:
- *       - application/json
- *     produces:
- *       - application/json
- *     parameters:
- *       - in: body
- *         name: contact
- *         description: Contact object containing name, email, and phone.
- *         required: true
- *         schema:
- *           type: object
- *           properties:
- *             name:
- *               type: string
- *               description: Name of the contact.
- *             email:
- *               type: string
- *               format: email
- *               description: Email of the contact.
- *             phone:
- *               type: string
- *               description: Phone number of the contact.
  *     security:
  *       - bearerAuth: []
+ *     requestBody:
+ *        required: true
+ *        content:
+ *            application/json:
+ *              schema:
+ *                  type: object
+ *                  properties:
+ *                      name:
+ *                         type: string
+ *                         description:  full name of contact
+ *                      email:
+ *                         type: string
+ *                         format: email
+ *                         description: email of contact
+ *                      phone:
+ *                          type: string
+ *                          description: phone number of contact
+ *                  required:
+ *                      - name
+ *                      - email
+ *                      - phone
  *     responses:
  *       201:
  *         description: Contact added successfully.
@@ -108,6 +133,27 @@ router.use(validateToken);
  *           type: string
  *     security:
  *       - bearerAuth: []
+ *     requestBody:
+ *        required: true
+ *        content:
+ *            application/json:
+ *              schema:
+ *                  type: object
+ *                  properties:
+ *                      name:
+ *                         type: string
+ *                         description:  full name of contact
+ *                      email:
+ *                         type: string
+ *                         format: email
+ *                         description: email of contact
+ *                      phone:
+ *                          type: string
+ *                          description: phone number of contact
+ *                  required:
+ *                      - name
+ *                      - email
+ *                      - phone
  *     responses:
  *       200:
  *         description: Successful response with the updated contact.
@@ -147,11 +193,14 @@ router.use(validateToken);
  *         description: Contact not found.
  */
 
-router.route("/").get(getContacts).post(createContact);
+router
+  .route("/")
+  .get(getContacts)
+  .post(validateContactForm, handleValidationErrors, createContact);
 router
   .route("/:id")
   .get(getContactById)
-  .patch(updateContact)
+  .patch(validateContactForm, handleValidationErrors, updateContact)
   .delete(deleteContact);
 
 module.exports = router;

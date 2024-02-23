@@ -19,11 +19,14 @@ const usersShema = new mongoose.Schema(
       type: String,
       required: [true, "Please enter password !"],
     },
+    profile_img: {
+      type: String,
+    },
   },
   {
     timestamps: true,
   }
 );
-usersShema.set("timestamps", true);
+// usersShema.set("timestamps", true);
 
 module.exports = mongoose.model("User", usersShema);

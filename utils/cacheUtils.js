@@ -38,6 +38,7 @@ const addContactToCache = async (userId, newContact) => {
     if (cachedContacts) {
       let parsedCachedContacts = JSON.parse(cachedContacts);
       let contacts = parsedCachedContacts.contacts;
+
       contacts.push(newContact);
       await redisClient.set(
         `contacts:${userId}`,

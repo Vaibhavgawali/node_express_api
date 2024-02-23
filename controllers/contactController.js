@@ -8,26 +8,185 @@ const {
   deleteContactFromCache,
   updateContactInCache,
 } = require("../utils/cacheUtils");
+const {
+  validateCommonFields,
+  validateFormWithPassword,
+  handleValidationErrors,
+} = require("../middleware/formValidation");
 
 //@desc Get all contacts
 //@route GET /api/contacts
 //@access private
+// const getContacts = asyncHandler(async (req, res) => {
+//   // search query parameter
+//   const queryParam = req.query.q;
+
+//   // Sorting parameter
+//   const sortBy = req.query.sortBy || "name";
+//   const sortOrder = req.query.sortOrder || "asc";
+
+//   // Pagination parameters
+//   const page = parseInt(req.query.page) || 1;
+//   const pageSize = parseInt(req.query.pageSize) || 10;
+//   const startIndex = (page - 1) * pageSize;
+//   const endIndex = startIndex + pageSize;
+
+//   await redisClient.connect();
+
+//   let result = await redisClient.get(`contacts:${req.user.id}`);
+//   if (result) {
+//     const { message, contacts } = JSON.parse(result);
+//     let output = contacts;
+
+//     // search query
+//     if (queryParam) {
+//       const regex = new RegExp(queryParam, "i");
+//       output = contacts.filter(
+//         (contact) => contact.name.match(regex) || contact.email.match(regex)
+//       );
+//     }
+
+//     // if (output === undefined) {
+//     //   return res.status(200).json({
+//     //     message: "No contacts found!",
+//     //     user_id: req.user.id,
+//     //   });
+//     // }
+
+//     // Sorting
+//     output.sort((a, b) => {
+//       if (sortOrder === "asc") {
+//         return a[sortBy].localeCompare(b[sortBy]);
+//       } else {
+//         return b[sortBy].localeCompare(a[sortBy]);
+//       }
+//     });
+
+//     // Pagination
+//     const paginatedContacts = output.slice(startIndex, endIndex);
+
+//     res.status(200).json({ message, contacts: paginatedContacts });
+//     await redisClient.disconnect();
+//   } else {
+//     const query = queryParam
+//       ? {
+//           $or: [
+//             { name: { $regex: queryParam, $options: "i" } },
+//             { email: { $regex: queryParam, $options: "i" } },
+//           ],
+//         }
+//       : {};
+
+//     const contacts = await Contact.find({
+//       $and: [{ user_id: req.user.id }, query],
+//     });
+
+//     if (contacts.length === 0) {
+//       res
+//         .status(200)
+//         .json({ message: "Contacts not found !", user_id: req.user.id });
+//     }
+
+//     await redisClient.set(
+//       `contacts:${req.user.id}`,
+//       JSON.stringify({
+//         message: "Contacts fetched successfully from redis !",
+//         contacts,
+//       }),
+//       { EX: 100, NX: true }
+//     );
+
+//     // Sorting
+//     output.sort((a, b) => {
+//       if (sortOrder === "asc") {
+//         return a[sortBy].localeCompare(b[sortBy]);
+//       } else {
+//         return b[sortBy].localeCompare(a[sortBy]);
+//       }
+//     });
+
+//     // pagination
+//     const paginatedContacts = contacts.slice(startIndex, endIndex);
+
+//     res.status(200).json({
+//       message: "Contacts fetched successfully from db !",
+//       contacts: paginatedContacts,
+//     });
+//     await redisClient.disconnect();
+//   }
+// });
 const getContacts = asyncHandler(async (req, res) => {
-  // if (!redisClient.connected) {
+  // search query parameter
+  const queryParam = req.query.q;
+
+  // Sorting parameter
+  const sortBy = req.query.sortBy || "name";
+  const sortOrder = req.query.sortOrder || "asc";
+
+  // Pagination parameters
+  const page = parseInt(req.query.page) || 1;
+  const pageSize = parseInt(req.query.pageSize) || 10;
+  const startIndex = (page - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+
   await redisClient.connect();
-  // }
 
   let result = await redisClient.get(`contacts:${req.user.id}`);
   if (result) {
-    const output = JSON.parse(result);
-    res.status(200).json(output);
+    const { message, contacts } = JSON.parse(result);
+    let output = contacts;
+
+    // search query
+    if (queryParam) {
+      const regex = new RegExp(queryParam, "i");
+      output = output.filter(
+        (contact) => contact.name.match(regex) || contact.email.match(regex)
+      );
+    }
+
+    // Sorting
+    output.sort((a, b) => {
+      if (sortOrder === "asc") {
+        return a[sortBy].localeCompare(b[sortBy]);
+      } else {
+        return b[sortBy].localeCompare(a[sortBy]);
+      }
+    });
+
+    // Pagination
+    const paginatedContacts = output.slice(startIndex, endIndex);
+
+    res.status(200).json({ message, contacts: paginatedContacts });
+    await redisClient.disconnect();
   } else {
-    const contacts = await Contact.find({ user_id: req.user.id });
+    const query = queryParam
+      ? {
+          $or: [
+            { name: { $regex: queryParam, $options: "i" } },
+            { email: { $regex: queryParam, $options: "i" } },
+          ],
+        }
+      : {};
+
+    const contacts = await Contact.find({
+      $and: [{ user_id: req.user.id }, query],
+    });
+
     if (contacts.length === 0) {
       res
         .status(200)
         .json({ message: "Contacts not found !", user_id: req.user.id });
     }
+
+    // Sorting
+    contacts.sort((a, b) => {
+      if (sortOrder === "asc") {
+        return a[sortBy].localeCompare(b[sortBy]);
+      } else {
+        return b[sortBy].localeCompare(a[sortBy]);
+      }
+    });
+
     await redisClient.set(
       `contacts:${req.user.id}`,
       JSON.stringify({
@@ -36,11 +195,16 @@ const getContacts = asyncHandler(async (req, res) => {
       }),
       { EX: 100, NX: true }
     );
-    res
-      .status(200)
-      .json({ message: "Contacts fetched successfully from db !", contacts });
+
+    // Pagination
+    const paginatedContacts = contacts.slice(startIndex, endIndex);
+
+    res.status(200).json({
+      message: "Contacts fetched successfully from db !",
+      contacts: paginatedContacts,
+    });
+    await redisClient.disconnect();
   }
-  await redisClient.disconnect();
 });
 
 //@desc Create new contacts
