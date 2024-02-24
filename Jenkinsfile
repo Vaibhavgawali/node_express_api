@@ -24,7 +24,7 @@ pipeline{
         
         stage('Start Application'){
             steps {
-                bat 'npm start' 
+                bat 'npm start ${params.PORT} ${params.CONNECTION_STRING} ${params.DB_USER} ${params.DB_PASS} ${params.JWT_KEY}' 
             }
         }
     }
