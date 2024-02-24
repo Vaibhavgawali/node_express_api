@@ -25,15 +25,29 @@ pipeline{
         stage('Start Application'){
             steps {
                 script {
-                    def exitCode = bat returnStatus: true, script: 'npm start', 
-                        env: [
-                            PORT: params.PORT, 
-                            CONNECTION_STRING: params.CONNECTION_STRING, 
-                            DB_USER: params.DB_USER, 
-                            DB_PASS: params.DB_PASS, 
-                            JWT_KEY: params.JWT_KEY
+                    // def exitCode = bat returnStatus: true, script: 'npm start', 
+                    //     env: [
+                    //         PORT: params.PORT, 
+                    //         CONNECTION_STRING: params.CONNECTION_STRING, 
+                    //         DB_USER: params.DB_USER, 
+                    //         DB_PASS: params.DB_PASS, 
+                    //         JWT_KEY: params.JWT_KEY
+                    //     ]
+                    // if (exitCode == 0) {
+                    //     currentBuild.result = 'SUCCESS'
+                    // } else {
+                    //     echo "Failed to start application"
+                    //     error "Failed to start application"
+                    // }
+                     bat returnStatus: true, script: 'npm start', 
+                        args: [
+                            params.PORT, 
+                            env.CONNECTION_STRING, 
+                            env.DB_USER, 
+                            env.DB_PASS, 
+                            env.JWT_KEY
                         ]
-                    if (exitCode == 0) {
+                    if (batExitCode == 0) {
                         currentBuild.result = 'SUCCESS'
                     } else {
                         echo "Failed to start application"
