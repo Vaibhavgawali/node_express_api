@@ -23,9 +23,18 @@ pipeline{
         }
         
         stage('Start Application'){
+            // steps {
+            //     bat 'npm start ${params.PORT} ${params.CONNECTION_STRING} ${params.DB_USER} ${params.DB_PASS} ${params.JWT_KEY}' 
+            // }
             steps {
-                bat 'npm start ${params.PORT} ${params.CONNECTION_STRING} ${params.DB_USER} ${params.DB_PASS} ${params.JWT_KEY}' 
-            }
+                script {
+                    def exitCode = bat returnStatus: true, script: "npm start ${params.PORT} ${params.CONNECTION_STRING} ${params.DB_USER} ${params.DB_PASS} ${params.JWT_KEY}"
+                    if (exitCode == 0) {
+                        currentBuild.result = 'SUCCESS'
+                    } else {
+                        error "Failed to start application"
+                    }
+                }
         }
     }
 }
