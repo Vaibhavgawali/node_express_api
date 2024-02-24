@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const dotenv = require("dotenv").config();
 const port = process.env.PORT || 5000;
 
@@ -12,6 +13,7 @@ const SwaggerUi = require("swagger-ui-express");
 const swaggerSpec = require("./swagger");
 const { requestLogger, errorLogger } = require("./middleware/logger");
 
+app.use(cors());
 connectDb();
 const app = express();
 app.use(express.static("uploads"));
