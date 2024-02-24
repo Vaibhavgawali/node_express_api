@@ -146,3 +146,14 @@
 2024-02-23T17:02:06.400Z POST /api/users/upload-image 200 211.739 ms - {}
 2024-02-23T17:03:19.570Z POST /api/users/upload-image 200 296.961 ms - {}
 2024-02-23T17:03:31.576Z POST /api/users/upload-image 200 1957.534 ms - {}
+2024-02-24T13:28:53.983Z POST /api/users/login 200 235.759 ms - {"name":"Vaibhav","email":"b@gmail.com","password":"password","phone":7766554434}
+2024-02-24T13:28:56.823Z POST /api/users/login 200 181.762 ms - {"name":"Vaibhav","email":"b@gmail.com","password":"password","phone":7766554434}
+2024-02-24T13:30:09.396Z GET /api/contacts 200 12.772 ms - {}
+2024-02-24T13:30:18.574Z GET /api/contacts 200 4.459 ms - {}
+2024-02-24T13:34:15.935Z GET /api-docs/ 200 6.468 ms - {}
+2024-02-24T13:34:15.973Z GET /api-docs/swagger-ui-init.js 200 0.533 ms - {}
+2024-02-24T13:34:16.021Z GET /api-docs/swagger-ui.css 200 35.161 ms - {}
+2024-02-24T13:34:16.024Z GET /api-docs/swagger-ui-standalone-preset.js 200 20.639 ms - {}
+2024-02-24T13:34:16.092Z GET /api-docs/swagger-ui-bundle.js 200 26.340 ms - {}
+2024-02-24T13:34:16.687Z GET /api-docs/favicon-32x32.png 200 2.244 ms - {}
+2024-02-24T13:34:20.793Z POST /api/users/login 401 279.417 ms - {"email":"user@example.com","password":"string"}

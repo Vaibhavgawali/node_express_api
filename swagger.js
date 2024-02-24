@@ -9,7 +9,7 @@ const options = {
     },
     servers: [
       {
-        url: `http://localhost:${port}`,
+        url: process.env.APP_DOMAIN || `http://localhost:${port}`,
       },
     ],
   },

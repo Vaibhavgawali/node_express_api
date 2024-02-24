@@ -55,3 +55,4 @@
 [2024-02-23T16:40:01.036Z] POST /api/users/upload-image 500 1927.519 ms - {} - No error message available
 [2024-02-23T16:40:45.735Z] POST /api/users/upload-image 500 2076.415 ms - {} - No error message available
 [2024-02-23T16:43:16.580Z] POST /api/users/upload-image 500 1038.228 ms - {} - No error message available
+[2024-02-24T13:34:20.793Z] POST /api/users/login 401 279.417 ms - {"email":"user@example.com","password":"string"} - No error message available

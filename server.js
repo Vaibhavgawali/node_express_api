@@ -13,9 +13,10 @@ const SwaggerUi = require("swagger-ui-express");
 const swaggerSpec = require("./swagger");
 const { requestLogger, errorLogger } = require("./middleware/logger");
 
-app.use(cors());
 connectDb();
 const app = express();
+app.use(cors());
+
 app.use(express.static("uploads"));
 app.use(express.json());
 
