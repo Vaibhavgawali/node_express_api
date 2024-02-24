@@ -27,12 +27,22 @@ pipeline{
             //     bat 'npm start ${params.PORT} ${params.CONNECTION_STRING} ${params.DB_USER} ${params.DB_PASS} ${params.JWT_KEY}' 
             // }
             steps {
-                script {
-                    def exitCode = bat returnStatus: true, script: "npm start ${env.PORT} ${env.CONNECTION_STRING} ${env.DB_USER} ${env.DB_PASS} ${env.JWT_KEY}"
-                    if (exitCode == 0) {
-                        currentBuild.result = 'SUCCESS'
-                    } else {
-                        error "Failed to start application"
+                // script {
+                //     def exitCode = bat returnStatus: true, script: "npm start ${env.PORT} ${env.CONNECTION_STRING} ${env.DB_USER} ${env.DB_PASS} ${env.JWT_KEY}"
+                //     if (exitCode == 0) {
+                //         currentBuild.result = 'SUCCESS'
+                //     } else {
+                //         error "Failed to start application"
+                //     }
+                // }
+                steps {
+                    script {
+                        def exitCode = bat returnStatus: true, script: "npm start ${params.PORT} ${params.CONNECTION_STRING} ${params.DB_USER} ${params.DB_PASS} ${params.JWT_KEY}"
+                        if (exitCode == 0) {
+                            currentBuild.result = 'SUCCESS'
+                        } else {
+                            error "Failed to start application"
+                        }
                     }
                 }
             }
