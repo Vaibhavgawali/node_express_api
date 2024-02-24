@@ -1,7 +1,7 @@
 pipeline{
     agent any
      environment {
-        PORT = '3000'
+        PORT = '5000'
         CONNECTION_STRING = credentials('CONNECTION_STRING')
         DB_USER = credentials('DB_USER')
         DB_PASS = credentials('DB_PASS')
@@ -28,7 +28,7 @@ pipeline{
             // }
             steps {
                 script {
-                    def exitCode = bat returnStatus: true, script: "npm start ${params.PORT} ${params.CONNECTION_STRING} ${params.DB_USER} ${params.DB_PASS} ${params.JWT_KEY}"
+                    def exitCode = bat returnStatus: true, script: "npm start ${env.PORT} ${env.CONNECTION_STRING} ${env.DB_USER} ${env.DB_PASS} ${env.JWT_KEY}"
                     if (exitCode == 0) {
                         currentBuild.result = 'SUCCESS'
                     } else {
