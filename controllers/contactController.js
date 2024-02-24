@@ -129,7 +129,9 @@ const getContacts = asyncHandler(async (req, res) => {
   const startIndex = (page - 1) * pageSize;
   const endIndex = startIndex + pageSize;
 
-  await redisClient.connect();
+  if (!redisClient.connected) {
+    await redisClient.connect();
+  }
 
   let result = await redisClient.get(`contacts:${req.user.id}`);
   if (result) {
