@@ -1,6 +1,13 @@
 pipeline{
     agent any
-    tools {nodejs "Node"}
+     environment {
+        PORT = '3000'
+        CONNECTION_STRING = credentials('CONNECTION_STRING')
+        DB_USER = credentials('DB_USER')
+        DB_PASS = credentials('DB_PASS')
+        JWT_KEY = credentials('JWT_KEY')
+    }
+    tools {nodejs "NodeJS"}
     stages {
         stage('Clone Repository'){
             steps{
