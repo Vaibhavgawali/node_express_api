@@ -130,7 +130,7 @@ const changePassword = asyncHandler(async (req, res) => {
 });
 
 //@desc Upload user image
-//@route POST /api/users/i,age-upload
+//@route POST /api/users/image-upload
 //@access private
 const uploadProfileImage = async (req, res) => {
   const id = req.user.id;
