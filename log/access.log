@@ -163,3 +163,7 @@
 2024-02-24T13:43:01.898Z GET /api-docs/swagger-ui-standalone-preset.js 304 2.134 ms - {}
 2024-02-24T13:43:01.904Z GET /api-docs/swagger-ui-init.js 200 1.550 ms - {}
 2024-02-24T13:43:02.267Z GET /api-docs/favicon-32x32.png 304 0.963 ms - {}
+2024-02-27T06:29:43.111Z POST /api/users/login 200 147.613 ms - {"name":"Vaibhav","email":"b@gmail.com","password":"password","phone":7766554434}
+2024-02-27T06:30:37.987Z GET /api/contacts 200 33928.871 ms - {}
+2024-02-27T06:30:44.696Z GET /api/contacts 200 8.659 ms - {}
+2024-02-27T06:30:47.772Z GET /api/contacts 200 6.641 ms - {}
